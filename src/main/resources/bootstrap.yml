@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: eureka-server-microservice
+  cloud:
+    config:
+      uri: http://192.168.1.33:13301/activitiesConfig
+      failFast: true
+      retry:
+        initialInterval: 2000
+        maxAttempts: 20

@@ -11,13 +11,12 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 
 jar {
 	baseName = 'eureka-server-microservice'
-	version = '0.0.1-SNAPSHOT'
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -29,11 +28,15 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-actuator-docs')
-	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+    compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
-	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+    compile('org.springframework.cloud:spring-cloud-starter-config')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
 dependencyManagement {
@@ -42,10 +45,27 @@ dependencyManagement {
 	}
 }
 
-
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.14'
 }
+
+// Create a fully executable jar
+springBoot {
+	executable = true
+}
+
+// Make the System.properties available in the bootRun task.
+bootRun.systemProperties = System.properties
+
+// Automatically expand info properties
+processResources {
+	filesMatching('**/*.yml') { expand(project.properties) }
+}
+
+ext.jenkinsNode = System.env.NODE_NAME
+ext.jenkinsJobName = System.env.JOB_NAME
+ext.jenkinsBuildTimestamp = System.env.BUILD_TIMESTAMP
+ext.jenkinsBuildId = System.env.BUILD_ID
+ext.jenkinsBuildNumber = System.env.BUILD_NUMBER
+ext.jenkinsGitCommit = System.env.GIT_COMMIT_ID // Custom env variable set in the Jenkinsfile
+ext.jenkinsGitBranch = System.env.BRANCH_NAME

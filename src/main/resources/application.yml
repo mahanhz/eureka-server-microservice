@@ -1,0 +1,13 @@
+info:
+  build:
+    name: ${name}
+    description: ${description}
+    version: ${version}
+    jenkins:
+      node: ${jenkinsNode}
+      job-name: ${jenkinsJobName}
+      build-timestamp: ${jenkinsBuildTimestamp}
+      build-id: ${jenkinsBuildId}
+      build-number: ${jenkinsBuildNumber}
+      git-commit: ${jenkinsGitCommit}
+      git-branch: ${jenkinsGitBranch}

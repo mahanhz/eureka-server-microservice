@@ -1,0 +1,27 @@
+group = 'com.amhzing.eurekaserver'
+
+jar {
+	baseName = 'eureka-server-microservice'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: "${NEXUS_REPO_URL}/releases") {
+				authentication(userName: mavenUser, password: mavenPassword)
+			}
+			snapshotRepository(url: "${NEXUS_REPO_URL}/snapshots") {
+				authentication(userName: mavenUser, password: mavenPassword)
+			}
+		}
+	}
+}
+
+release {
+	// These allow an older master to be published (e.g. latest master did not pass all tests)
+	failOnCommitNeeded = false
+	failOnUnversionedFiles = false
+	failOnUpdateNeeded = false
+}
+
+afterReleaseBuild.dependsOn uploadArchives

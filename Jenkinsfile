@@ -89,7 +89,7 @@ if (isMasterBranch()) {
         unstash 'source'
         unstash 'masterProperties'
 
-        def script = "scripts/release/activities_config_release.sh"
+        def script = "scripts/release/eureka_server_release.sh"
         sh "chmod 755 " + script
         sh 'chmod 755 gradlew'
 

@@ -4,11 +4,17 @@ def deployFilePrefix="eureka_server_"
 def deployScript = deployFilePrefix + "deploy.sh"
 def deployScriptLocation = deployFolder + deployScript
 
-def testConf = deployFilePrefix + "test.conf"
-def testConfLocation = deployFolder  + testConf
+def testConf1 = deployFilePrefix + "test1.conf"
+def testConf1Location = deployFolder  + testConf1
 
-def productionConf = deployFilePrefix + "production.conf"
-def productionConfLocation = deployFolder  + productionConf
+def testConf2 = deployFilePrefix + "test2.conf"
+def testConf2Location = deployFolder  + testConf2
+
+def productionConf1 = deployFilePrefix + "production1.conf"
+def productionConf1Location = deployFolder  + productionConf1
+
+def productionConf2 = deployFilePrefix + "production2.conf"
+def productionConf2Location = deployFolder  + productionConf2
 
 def remoteLocation = "/home/pi"
 
@@ -38,14 +44,24 @@ remotes {
 
 task deployToTest << {
     ssh.run {
-        session(remotes.role('testServer')) {
-            put from: "${testConfLocation}", into: "${remoteLocation}"
+        session(remotes.testServer1) {
+            put from: "${testConf1Location}", into: "${remoteLocation}"
             put from: "${deployScriptLocation}", into: "${remoteLocation}"
 
-            execute "sudo chmod 744 ${testConf}"
+            execute "sudo chmod 744 ${testConf1}"
             execute "sudo chmod 744 ${deployScript}"
 
-            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${testConf}"
+            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${testConf1}"
+            execute "sudo rm ${deployFilePrefix}*"
+        }
+        session(remotes.testServer2) {
+            put from: "${testConf2Location}", into: "${remoteLocation}"
+            put from: "${deployScriptLocation}", into: "${remoteLocation}"
+
+            execute "sudo chmod 744 ${testConf2}"
+            execute "sudo chmod 744 ${deployScript}"
+
+            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${testConf2}"
             execute "sudo rm ${deployFilePrefix}*"
         }
     }
@@ -53,14 +69,24 @@ task deployToTest << {
 
 task deployToProduction << {
     ssh.run {
-        session(remotes.role('prodServer')) {
-            put from: "${productionConfLocation}", into: "${remoteLocation}"
+        session(remotes.prodServer1) {
+            put from: "${productionConf1Location}", into: "${remoteLocation}"
             put from: "${deployScriptLocation}", into: "${remoteLocation}"
 
-            execute "sudo chmod 744 ${productionConf}"
+            execute "sudo chmod 744 ${productionConf1}"
             execute "sudo chmod 744 ${deployScript}"
 
-            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${productionConf}"
+            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${productionConf1}"
+            execute "sudo rm ${deployFilePrefix}*"
+        }
+        session(remotes.prodServer2) {
+            put from: "${productionConf2Location}", into: "${remoteLocation}"
+            put from: "${deployScriptLocation}", into: "${remoteLocation}"
+
+            execute "sudo chmod 744 ${productionConf2}"
+            execute "sudo chmod 744 ${deployScript}"
+
+            execute "sudo ./${deployScript} ${repoId} ${artifactVersion} ${productionConf2}"
             execute "sudo rm ${deployFilePrefix}*"
         }
     }

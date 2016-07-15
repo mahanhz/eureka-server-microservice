@@ -1,4 +1,4 @@
 spring:
   cloud:
     config:
-      uri: http://192.168.1.33:13301/activitiesConfig
+      uri: http://localhost:13301/activitiesConfig

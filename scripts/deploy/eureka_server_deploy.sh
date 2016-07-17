@@ -71,7 +71,7 @@ sudo ln -s /opt/$APP_DIR/$ARTIFACT $APP_NAME
 
 echo "Set up the application to start automatically on boot"
 sudo update-rc.d $APP_NAME remove
-sudo update-rc.d $APP_NAME defaults 20 # priority 20 implies that something should start before
+sudo update-rc.d $APP_NAME defaults 40
 
 echo "Kill the PID"
 ps -ef | grep $APP_NAME | grep -v grep | awk '{print $2}' | xargs kill

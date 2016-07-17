@@ -1,26 +1,26 @@
 #!/bin/sh
 
 echo "Passed in arguments are: $1, $2, $3"
-export REPO_ID=$1
-export VERSION=$2
-export ENV_CONF=$3
+REPO_ID=$1
+VERSION=$2
+ENV_CONF=$3
 
-export HOME_DIR=/home/pi
+HOME_DIR=/home/pi
 
 echo "This script assumes that the appadm user exists"
-export APP_USER=appadm
+APP_USER=appadm
 
-export APP_NAME=eureka-server-microservice
-export APP_DIR=$APP_NAME
+APP_NAME=eureka-server-microservice
+APP_DIR=$APP_NAME
 
-export LOG_DIR=log
+LOG_DIR=log
 
-export NEXUS_URL=http://192.168.1.31:8082/nexus/service/local/artifact/maven/content
-export GROUP_ID=com.amhzing.eurekaserver
-export ARTIFACT_ID=$APP_NAME
-export ARTIFACT_URL="$NEXUS_URL?r=$REPO_ID&g=$GROUP_ID&a=$ARTIFACT_ID&v=$VERSION"
-export ARTIFACT=$APP_NAME.jar
-export CONF=$APP_NAME.conf
+NEXUS_URL=http://192.168.1.31:8082/nexus/service/local/artifact/maven/content
+GROUP_ID=com.amhzing.eurekaserver
+ARTIFACT_ID=$APP_NAME
+ARTIFACT_URL="$NEXUS_URL?r=$REPO_ID&g=$GROUP_ID&a=$ARTIFACT_ID&v=$VERSION"
+ARTIFACT=$APP_NAME.jar
+CONF=$APP_NAME.conf
 
 echo "Set up application directory (assuming /opt folder already exists)"
 cd /opt

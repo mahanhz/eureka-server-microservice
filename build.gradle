@@ -52,6 +52,8 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-config')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
 
+	compile('org.springframework.retry:spring-retry')
+
 	compile ("ch.qos.logback:logback-classic:${logbackVersion}")
 	compile ("ch.qos.logback:logback-core:${logbackVersion}")
 	compile ("net.logstash.logback:logstash-logback-encoder:${logstashLogbackVersion}")
@@ -90,7 +92,7 @@ bootRun.systemProperties = System.properties
 
 // Automatically expand info properties
 processResources {
-	filesMatching('**/*.yml') { expand(project.properties) }
+	filesMatching('**/application.yml') { expand(project.properties) }
 }
 
 ext.jenkinsNode = System.env.NODE_NAME

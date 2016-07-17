@@ -6,5 +6,6 @@ spring:
       uri: http://192.168.1.33:13301/activitiesConfig
       failFast: true
       retry:
-        initialInterval: 2000
+        initialInterval: 5000
+        maxInterval: 10000
         maxAttempts: 20

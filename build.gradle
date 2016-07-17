@@ -85,6 +85,11 @@ apply from: 'deploy.gradle'
 // Create a fully executable jar
 springBoot {
 	executable = true
+
+	embeddedLaunchScriptProperties = [initInfoDescription: project.description,
+									  initInfoShortDescription: project.name,
+									  initInfoProvides: jar.baseName,
+									  mode: 'service']
 }
 
 // Make the System.properties available in the bootRun task.

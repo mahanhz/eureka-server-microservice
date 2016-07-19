@@ -7,7 +7,7 @@ buildscript {
 		sshVersion = '2.2.0'
 		gradleReleaseVersion = '2.4.0'
 
-		logbackVersion = '1.1.7'
+		logbackVersion = '1.1.6'
 		logstashLogbackVersion = '4.7'
 		janinoVersion = '2.7.8'
 		slf4jVersion = '1.7.21'

@@ -1,4 +1,5 @@
 <configuration>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
 
     <property name="logFileName" value="eureka-server-microservice" />
     <property name="productionProfile" value="production" />
@@ -27,7 +28,7 @@
             <fileNamePattern>${app.log.path:-.}/${logFileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history capped at 100MB total size -->
             <maxHistory>30</maxHistory>
-            <totalSizeCap>100MB</totalSizeCap>
+            <!-- <totalSizeCap>100MB</totalSizeCap> -->
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
@@ -44,6 +45,11 @@
         <appender-ref ref="FILE" />
     </appender>
 
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.1.35:4560</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
     <logger name="com.amhzing" level="${logLevel}" additivity="false">
         <!-- Write  to stdout if not production profile -->
         <if condition='!"${productionProfile}".equalsIgnoreCase("${spring.profiles.active}")'>
@@ -52,6 +58,7 @@
             </then>
         </if>
         <appender-ref ref="ASYNC_FILE" />
+        <appender-ref ref="STASH" />
     </logger>
 
     <root level="WARN">

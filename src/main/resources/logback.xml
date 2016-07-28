@@ -4,7 +4,7 @@
     <property name="logFileName" value="eureka-server-microservice" />
     <property name="productionProfile" value="production" />
 
-    <if condition='"${productionProfile}".equals("${spring.profiles.active}")'>
+    <if condition='"${spring.profiles.active}".contains("${productionProfile}")'>
         <then>
             <property name="logLevel" value="INFO"/>
         </then>
@@ -45,20 +45,22 @@
         <appender-ref ref="FILE" />
     </appender>
 
-    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.1.35:4560</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
     <logger name="com.amhzing" level="${logLevel}" additivity="false">
-        <!-- Write  to stdout if not production profile -->
-        <if condition='!"${productionProfile}".equalsIgnoreCase("${spring.profiles.active}")'>
+        <!-- Write to logstash if production and stdout if not -->
+        <if condition='"${spring.profiles.active}".contains("${productionProfile}")'>
             <then>
-                <appender-ref ref="STDOUT" />
+                <appender-ref ref="LOGSTASH" />
             </then>
+            <else>
+                <appender-ref ref="STDOUT" />
+            </else>
         </if>
         <appender-ref ref="ASYNC_FILE" />
-        <appender-ref ref="STASH" />
     </logger>
 
     <root level="WARN">

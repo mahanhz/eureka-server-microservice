@@ -2,6 +2,10 @@ group = 'com.amhzing.eurekaserver'
 
 jar {
 	baseName = 'eureka-server-microservice'
+
+	// Do not include environment specific properties in the built jar
+	exclude 'application-*'
+	exclude 'bootstrap-*'
 }
 
 uploadArchives {

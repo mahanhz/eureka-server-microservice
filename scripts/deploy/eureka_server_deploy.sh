@@ -76,5 +76,5 @@ sudo update-rc.d $APP_NAME defaults 40
 echo "Kill the PID"
 ps -ef | grep $APP_NAME | grep -v grep | awk '{print $2}' | xargs kill
 
-echo "Retart the app"
+echo "Restart the app"
 sudo service $APP_NAME restart

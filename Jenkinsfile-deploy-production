@@ -45,7 +45,7 @@ parallel 'prodServer1': {
             unstash 'source'
             sh 'chmod 755 gradlew'
 
-            sh 'SPRING_PROFILES_ACTIVE=prodServer1 ./gradlew smokeTest'
+            sh 'SPRING_PROFILES_ACTIVE=production,prodServer1 ./gradlew smokeTest'
         }
     }
 }, 'prodServer2': {
@@ -54,7 +54,7 @@ parallel 'prodServer1': {
             unstash 'source'
             sh 'chmod 755 gradlew'
 
-            sh 'SPRING_PROFILES_ACTIVE=prodServer2 ./gradlew smokeTest'
+            sh 'SPRING_PROFILES_ACTIVE=production,prodServer2 ./gradlew smokeTest'
         }
     }
 }

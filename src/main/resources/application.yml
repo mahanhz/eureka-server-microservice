@@ -1,8 +1,8 @@
 info:
+  version: ${version}
   build:
     name: ${name}
     description: ${description}
-    version: ${version}
     jenkins:
       node: ${jenkinsNode}
       job-name: ${jenkinsJobName}

@@ -1,7 +1,4 @@
 spring:
-  boot:
-    admin:
-      url: http://localhost:13307/adminServer
   cloud:
     config:
       uri: http://localhost:13301

@@ -1,15 +1,8 @@
 spring:
   application:
     name: eureka-server-microservice
-  boot:
-    admin:
-      client:
-        health-url: http://${eureka.instance.hostname}:${management.port}${management.context-path}/health
-        management-url: http://${eureka.instance.hostname}:${management.port}${management.context-path}
-        service-url: http://${eureka.instance.hostname}:${server.port}${server.context-path}
   cloud:
     config:
-      uri: http://192.168.1.33:13301
       failFast: true
       retry:
         initialInterval: 5000

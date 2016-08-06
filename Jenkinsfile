@@ -38,7 +38,7 @@ if (!isMasterBranch()) {
     node {
         unstash 'source'
         sh 'chmod 755 gradlew'
-        sh './gradlew integrationTest'
+        sh 'SPRING_CLOUD_CONFIG_URI=http://192.168.1.33:13301/activitiesConfig ./gradlew integrationTest'
     }
 
     stage name: 'Merge', concurrency: 1

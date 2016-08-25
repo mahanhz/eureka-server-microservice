@@ -33,7 +33,9 @@
             <maxHistory>30</maxHistory>
             <!-- <totalSizeCap>100MB</totalSizeCap> -->
         </rollingPolicy>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timeZone>UTC</timeZone>
+        </encoder>
     </appender>
 
     <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
@@ -50,7 +52,9 @@
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.1.35:4560</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timeZone>UTC</timeZone>
+        </encoder>
     </appender>
 
     <logger name="com.amhzing" level="${logLevel}" additivity="false">

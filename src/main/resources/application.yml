@@ -1,13 +1,3 @@
+# This is needed by spring boot admin to display the version
 info:
   version: ${version}
-  build:
-    name: ${name}
-    description: ${description}
-    jenkins:
-      node: ${jenkinsNode}
-      job-name: ${jenkinsJobName}
-      build-timestamp: ${jenkinsBuildTimestamp}
-      build-id: ${jenkinsBuildId}
-      build-number: ${jenkinsBuildNumber}
-      git-commit: ${jenkinsGitCommit}
-      git-branch: ${jenkinsGitBranch}

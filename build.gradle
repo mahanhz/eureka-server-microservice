@@ -2,7 +2,7 @@ buildscript {
 	ext {
 		NEXUS_REPO_URL = 'http://192.168.1.31:8082/nexus/content/repositories'
 
-		springBootVersion = '1.4.0.RELEASE'
+		springBootVersion = '1.4.1.RELEASE'
 		dependencyManagementVersion = '0.6.0.RELEASE'
 		sshVersion = '2.2.0'
 		gradleReleaseVersion = '2.4.0'
@@ -96,6 +96,19 @@ springBoot {
 									  initInfoShortDescription: project.name,
 									  initInfoProvides: jar.baseName,
 									  mode: 'service']
+
+	buildInfo {
+		additionalProperties = [
+				'description': "${description}",
+				'jenkins.node': "${System.env.NODE_NAME}",
+				'jenkins.job-name': "${System.env.JOB_NAME}",
+				'jenkins.build-timestamp': "${System.env.BUILD_TIMESTAMP}",
+				'jenkins.build-id': "${System.env.BUILD_ID}",
+				'jenkins.build-number': "${System.env.BUILD_NUMBER}",
+				'jenkins.git-commit': "${System.env.GIT_COMMIT_ID}", // Custom env variable set in the Jenkinsfile
+				'jenkins.git-branch': "${System.env.BRANCH_NAME}"
+		]
+	}
 }
 
 // Make the System.properties available in the bootRun task.
@@ -105,11 +118,3 @@ bootRun.systemProperties = System.properties
 processResources {
 	filesMatching('**/application.yml') { expand(project.properties) }
 }
-
-ext.jenkinsNode = System.env.NODE_NAME
-ext.jenkinsJobName = System.env.JOB_NAME
-ext.jenkinsBuildTimestamp = System.env.BUILD_TIMESTAMP
-ext.jenkinsBuildId = System.env.BUILD_ID
-ext.jenkinsBuildNumber = System.env.BUILD_NUMBER
-ext.jenkinsGitCommit = System.env.GIT_COMMIT_ID // Custom env variable set in the Jenkinsfile
-ext.jenkinsGitBranch = System.env.BRANCH_NAME

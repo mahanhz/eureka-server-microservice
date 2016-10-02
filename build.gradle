@@ -104,6 +104,8 @@ springBoot {
 	embeddedLaunchScriptProperties = [initInfoDescription: project.description,
 									  initInfoShortDescription: project.name,
 									  initInfoProvides: jar.baseName,
+									  // Overriding the start priority so this service starts before the others
+									  initInfoChkconfig: '2345 95 01',
 									  mode: 'service']
 
 	buildInfo {

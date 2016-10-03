@@ -1,7 +1,13 @@
 <configuration>
+    <!-- always a good idea to add an on console status listener -->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <!-- added this as recommended by spring-boot-admin -->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <jmxConfigurator/>
 
+    <!-- added this as recommended by logstash-logback-encoder.
+         See TCP Appenders https://github.com/logstash/logstash-logback-encoder -->
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
 
     <property name="logFileName" value="eureka-server-microservice" />
@@ -10,6 +16,12 @@
     <if condition='"${spring.profiles.active}".contains("${productionProfile}")'>
         <then>
             <property name="logLevel" value="INFO"/>
+            <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+                <destination>192.168.1.35:4560</destination>
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <timeZone>UTC</timeZone>
+                </encoder>
+            </appender>
         </then>
         <else>
             <property name="logLevel" value="DEBUG"/>
@@ -31,7 +43,7 @@
             <fileNamePattern>${app.log.path:-.}/${logFileName}.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 30 days' worth of history capped at 100MB total size -->
             <maxHistory>30</maxHistory>
-            <!-- <totalSizeCap>100MB</totalSizeCap> -->
+            <!--<totalSizeCap>100MB</totalSizeCap>-->
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <timeZone>UTC</timeZone>
@@ -48,13 +60,6 @@
         <queueSize>500</queueSize>
         <discardingThreshold>0</discardingThreshold>
         <appender-ref ref="FILE" />
-    </appender>
-
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.1.35:4560</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <timeZone>UTC</timeZone>
-        </encoder>
     </appender>
 
     <logger name="com.amhzing" level="${logLevel}" additivity="false">
